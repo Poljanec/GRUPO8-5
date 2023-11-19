@@ -1,26 +1,29 @@
 package com.ar.cac.homebanking.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+        import lombok.AllArgsConstructor;
+        import lombok.Getter;
+        import lombok.NoArgsConstructor;
+        import lombok.Setter;
+        import java.util.Date;
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
 
     private Long id;
 
-    private String email;
+    private String mail;
 
-    private String password;
+    private String contrasena;
 
-    private String name;
+    private String nombre;
 
-    private String surname;
+    private String apellido;
 
     private String dni;
+
+    private Date fechanacimiento;
+
+    private String direccion;
 
 }

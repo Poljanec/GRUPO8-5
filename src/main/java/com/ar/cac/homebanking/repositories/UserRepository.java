@@ -1,4 +1,3 @@
-
 package com.ar.cac.homebanking.repositories;
 
         import com.ar.cac.homebanking.models.User;
@@ -7,4 +6,7 @@ package com.ar.cac.homebanking.repositories;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
+
+        User findByEmail(String email);
+
 }

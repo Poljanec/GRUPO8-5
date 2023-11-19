@@ -1,13 +1,12 @@
 package com.ar.cac.homebanking.controllers;
+
+        import com.ar.cac.homebanking.exceptions.UserNotExistsException;
         import com.ar.cac.homebanking.models.UserDTO;
-        import  com.ar.cac.homebanking.models.*;
         import com.ar.cac.homebanking.services.UserService;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.http.HttpStatus;
-        import org.springframework.http.HttpStatusCode;
         import org.springframework.http.ResponseEntity;
         import org.springframework.web.bind.annotation.*;
-        import org.springframework.web.bind.annotation.GetMapping;
 
         import java.util.List;
 
@@ -36,8 +35,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    public UserDTO getUserById(@PathVariable Long id){
-        return null;
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(service.getUserById(id));
     }
 
     @PostMapping
@@ -45,19 +44,14 @@ public class UserController {
         return  ResponseEntity.status(HttpStatus.CREATED).body(service.createUser(user));
     }
 
-    public void updateAllUser(){
-
+    @PutMapping(value="/{id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO user){
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(id, user));
     }
 
-    public void updateUser(){
-
+    @DeleteMapping(value="/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(service.deleteUser(id));
     }
-
-    public void deleteUser(){
-
-    }
-
-    // Metodo para validar caracteres del email
-
 
 }

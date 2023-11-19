@@ -1,10 +1,9 @@
-
 package com.ar.cac.homebanking.models;
 
         import jakarta.persistence.*;
         import lombok.Getter;
         import lombok.Setter;
-
+        import java.util.Date;
 @Entity
 @Table(name = "usuarios")
 @Getter
@@ -27,7 +26,13 @@ public class User {
     @Column(name = "apellido")
     private String surname;
 
-
     @Column(name = "dni")
     private String dni;
+
+    @Column(name = "fechanacimiento")
+    private Date fechanacimiento;
+
+    @Column(name = "direccion")
+    private String direccion;
 }
+
