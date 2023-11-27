@@ -3,11 +3,9 @@ package com.ar.cac.homebanking.services;
         import com.ar.cac.homebanking.exceptions.UserNotExistsException;
         import com.ar.cac.homebanking.mappers.UserMapper;
         import com.ar.cac.homebanking.models.User;
-        import com.ar.cac.homebanking.models.UserDTO;
+        import com.ar.cac.homebanking.models.dtos.UserDTO;
         import com.ar.cac.homebanking.repositories.UserRepository;
         import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.http.HttpStatus;
-        import org.springframework.http.ResponseEntity;
         import org.springframework.stereotype.Service;
 
         import java.util.List;
@@ -35,13 +33,7 @@ public class UserService {
     public UserDTO createUser(UserDTO userDto){
         User userSaved = repository.save(UserMapper.dtoToUser(userDto));
         return UserMapper.userToDto(userSaved);
-/*        User userValidated = validateUserByEmail(userDto);
-        if (userValidated == null){
-            User userSaved = repository.save(UserMapper.dtoToUser(userDto));
-            return UserMapper.userToDto(userSaved);
-        } else{
-            throw new UserNotExistsException("Usuario con mail: " + userDto.getMail() + " ya existe");
-        } */
+
 
     }
 
@@ -67,20 +59,20 @@ public class UserService {
             // Validar qué datos no vienen en null para setearlos al objeto ya creado
 
             // Logica del Patch
-            if (dto.getNombre() != null){
-                userToModify.setName(dto.getNombre());
+            if (dto.getName() != null){
+                userToModify.setName(dto.getName());
             }
 
-            if (dto.getApellido() != null){
-                userToModify.setSurname(dto.getApellido());
+            if (dto.getSurname() != null){
+                userToModify.setSurname(dto.getSurname());
             }
 
-            if (dto.getMail() != null){
-                userToModify.setEmail(dto.getMail());
+            if (dto.getEmail() != null){
+                userToModify.setEmail(dto.getEmail());
             }
 
-            if (dto.getContrasena() != null){
-                userToModify.setPassword(dto.getContrasena());
+            if (dto.getPassword() != null){
+                userToModify.setPassword(dto.getPassword());
             }
 
             if (dto.getDni() != null){
@@ -98,6 +90,6 @@ public class UserService {
     // Validar que existan usuarios unicos por mail
     public User validateUserByEmail(UserDTO dto)
     {
-        return repository.findByEmail(dto.getMail());
+        return repository.findByEmail(dto.getEmail());
     }
 }

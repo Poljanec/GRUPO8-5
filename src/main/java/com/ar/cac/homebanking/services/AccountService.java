@@ -2,11 +2,8 @@ package com.ar.cac.homebanking.services;
 
         import com.ar.cac.homebanking.exceptions.UserNotExistsException;
         import com.ar.cac.homebanking.mappers.AccountMapper;
-        import com.ar.cac.homebanking.mappers.UserMapper;
         import com.ar.cac.homebanking.models.Account;
-        import com.ar.cac.homebanking.models.User;
-        import com.ar.cac.homebanking.models.AccountDTO;
-        import com.ar.cac.homebanking.models.UserDTO;
+        import com.ar.cac.homebanking.models.dtos.AccountDTO;
         import com.ar.cac.homebanking.models.enums.AccountType;
         import com.ar.cac.homebanking.repositories.AccountRepository;
         import org.springframework.stereotype.Service;
