@@ -11,9 +11,9 @@ public class TransferMapper {
     public TransferDTO transferToDto(Transfer transfer){
         TransferDTO dto = new TransferDTO();
         dto.setAmount(transfer.getAmount());
-        dto.setAccount_origin(transfer.getAccount_origin());
-        dto.setAccount_destination(transfer.getAccount_destination());
-        dto.setDate_transf(transfer.getDate_transf());
+        dto.setAccountOrigin(transfer.getAccountOrigin());
+        dto.setAccountDestination(transfer.getAccountTarget());
+        dto.setDateTransf(transfer.getDateTransf());
         dto.setId(transfer.getId());
         return dto;
     }
@@ -21,9 +21,9 @@ public class TransferMapper {
     public Transfer dtoToTransfer(TransferDTO dto){
         Transfer transfer = new Transfer();
         transfer.setAmount(dto.getAmount());
-        transfer.setAccount_origin(dto.getAccount_origin());
-        transfer.setAccount_destination(dto.getAccount_destination());
-        transfer.setDate_transf(dto.getDate_transf());
+        transfer.setAccountOrigin(dto.getAccountOrigin());
+        transfer.setAccountTarget(dto.getAccountDestination());
+        transfer.setDateTransf(dto.getDateTransf());
         return transfer;
     }
 }

@@ -7,6 +7,7 @@ package com.ar.cac.homebanking.controllers;
         import org.springframework.web.bind.annotation.*;
 
         import java.util.List;
+        import java.util.function.ToDoubleBiFunction;
 
 @RestController
 @RequestMapping("/api/transfer")
@@ -29,10 +30,10 @@ public class TransferController {
         return ResponseEntity.status(HttpStatus.OK).body(service.getTransferById(id));
     }
 
-    @PostMapping
-    public ResponseEntity<TransferDTO> createAccount(@RequestBody TransferDTO dto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createTransfer(dto));
-    }
+    //@PostMapping
+    //public ResponseEntity<TransferDTO> createAccount(@RequestBody TransferDTO dto){
+    //    return ResponseEntity.status(HttpStatus.CREATED).body(service.createTransfer(dto));
+    //}
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<TransferDTO> updateTransfer(@PathVariable Long id, @RequestBody TransferDTO dto){

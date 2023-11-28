@@ -1,13 +1,18 @@
 package com.ar.cac.homebanking.models;
 
         import jakarta.persistence.*;
-        import lombok.Getter;
-        import lombok.Setter;
+        import lombok.*;
+
         import java.util.Date;
+        import java.util.List;
+
 @Entity
 @Table(name = "usuarios")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
 
     @Id
@@ -34,5 +39,9 @@ public class User {
 
     @Column(name = "direccion")
     private String direccion;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Account> accounts;
+
 }
 

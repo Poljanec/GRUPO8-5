@@ -1,12 +1,10 @@
 package com.ar.cac.homebanking.models;
 
-
-        import com.ar.cac.homebanking.models.enums.AccountType;
-        import jakarta.persistence.*;
-        import lombok.Getter;
-        import lombok.Setter;
-
-        import java.math.BigDecimal;
+import com.ar.cac.homebanking.models.enums.AccountType;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "cuentas")
@@ -30,7 +28,7 @@ public class Account {
     @Column(name = "amount")
     private BigDecimal amount;
 
-    //@
-    //private User owner;
+    @ManyToOne
+    private User owner;
 
 }

@@ -1,26 +1,26 @@
 package com.ar.cac.homebanking.models.dtos;
 
-        import com.ar.cac.homebanking.models.enums.AccountType;
-        import lombok.Getter;
-        import lombok.NoArgsConstructor;
-        import lombok.Setter;
+import com.ar.cac.homebanking.models.enums.AccountType;
+import lombok.*;
+import java.math.BigDecimal;
+import java.util.Date;
 
-        import java.math.BigDecimal;
-        import java.util.Date;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
 public class TransferDTO {
 
     private Long id;
 
     private BigDecimal amount;
 
-    private Long account_origin;
+    private Long accountOrigin;
 
-    private Long account_destination;
+    private Long accountDestination;
 
-    private Date date_transf;
+    private Date dateTransf;
 
 }
