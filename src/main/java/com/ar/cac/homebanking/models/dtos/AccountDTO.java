@@ -1,4 +1,4 @@
-package com.ar.cac.homebanking.models;
+package com.ar.cac.homebanking.models.dtos;
 
         import com.ar.cac.homebanking.models.enums.AccountType;
         import lombok.Getter;

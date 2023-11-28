@@ -1,7 +1,6 @@
 package com.ar.cac.homebanking.controllers;
 
-        import com.ar.cac.homebanking.models.Transfer;
-        import com.ar.cac.homebanking.models.TransferDTO;
+        import com.ar.cac.homebanking.models.dtos.TransferDTO;
         import com.ar.cac.homebanking.services.TransferService;
         import org.springframework.http.HttpStatus;
         import org.springframework.http.ResponseEntity;

@@ -2,16 +2,11 @@ package com.ar.cac.homebanking.services;
 
         import com.ar.cac.homebanking.exceptions.UserNotExistsException;
         import com.ar.cac.homebanking.mappers.TransferMapper;
-        import com.ar.cac.homebanking.mappers.UserMapper;
         import com.ar.cac.homebanking.models.Transfer;
-        import com.ar.cac.homebanking.models.User;
-        import com.ar.cac.homebanking.models.TransferDTO;
-        import com.ar.cac.homebanking.models.UserDTO;
-        import com.ar.cac.homebanking.models.enums.TransferType;
+        import com.ar.cac.homebanking.models.dtos.TransferDTO;
         import com.ar.cac.homebanking.repositories.TransferRepository;
         import org.springframework.stereotype.Service;
 
-        import java.math.BigDecimal;
         import java.util.List;
         import java.util.stream.Collectors;
 

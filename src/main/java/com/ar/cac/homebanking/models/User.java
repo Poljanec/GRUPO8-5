@@ -29,8 +29,8 @@ public class User {
     @Column(name = "dni")
     private String dni;
 
-    @Column(name = "fechanacimiento")
-    private Date fechanacimiento;
+    @Column(name = "fechaNacimiento")
+    private Date fechaNacimiento;
 
     @Column(name = "direccion")
     private String direccion;
