@@ -7,7 +7,6 @@ package com.ar.cac.homebanking.services;
         import com.ar.cac.homebanking.repositories.UserRepository;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.stereotype.Service;
-
         import java.util.List;
         import java.util.stream.Collectors;
 
@@ -31,12 +30,15 @@ public class UserService {
     }
 
     public UserDTO createUser(UserDTO userDto){
-        User userSaved = repository.save(UserMapper.dtoToUser(userDto));
-        return UserMapper.userToDto(userSaved);
-
+        User userValidated = validateUserByEmail(userDto);
+        if (userValidated == null){
+            User userSaved = repository.save(UserMapper.dtoToUser(userDto));
+            return UserMapper.userToDto(userSaved);
+        } else{
+            throw new UserNotExistsException("Usuario con mail: " + userDto.getEmail() + " ya existe");
+        }
 
     }
-
 
     public UserDTO getUserById(Long id) {
         User entity = repository.findById(id).get();
@@ -86,10 +88,8 @@ public class UserService {
 
         return null;
     }
-
     // Validar que existan usuarios unicos por mail
-    public User validateUserByEmail(UserDTO dto)
-    {
+    public User validateUserByEmail(UserDTO dto){
         return repository.findByEmail(dto.getEmail());
     }
 }
