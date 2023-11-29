@@ -2,14 +2,18 @@ package com.ar.cac.homebanking.models;
 
 import com.ar.cac.homebanking.models.enums.AccountType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "cuentas")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Account {
 
     @Id
@@ -30,5 +34,9 @@ public class Account {
 
     @ManyToOne
     private User owner;
+
+
+    @OneToMany(mappedBy = "propietario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transfer> transfers;
 
 }

@@ -30,21 +30,21 @@ public class TransferService {
     public List<TransferDTO> getTransfer() {
         List<Transfer> transfers = repository.findAll();
         return transfers.stream()
-                .map(TransferMapper::transferToDto)
+                .map(TransferMapper::transferToDTO)
                 .collect(Collectors.toList());
     }
 
     public TransferDTO getTransferById(Long id){
         Transfer transfer = repository.findById(id).orElseThrow(() ->
                 new TransferNotFoundException("Transfer not found with id: " + id));
-        return TransferMapper.transferToDto(transfer);
+        return TransferMapper.transferToDTO(transfer);
     }
 
     public TransferDTO updateTransfer(Long id, TransferDTO transferDto){
         Transfer transfer = repository.findById(id).orElseThrow(() -> new TransferNotFoundException("Transfer not found with id: " + id));
         Transfer updatedTransfer = TransferMapper.dtoToTransfer(transferDto);
         updatedTransfer.setId(transfer.getId());
-        return TransferMapper.transferToDto(repository.save(updatedTransfer));
+        return TransferMapper.transferToDTO(repository.save(updatedTransfer));
     }
     public String deleteTransfer(Long id){
         if (repository.existsById(id)){
@@ -54,18 +54,19 @@ public class TransferService {
             return "No se ha eliminado la transferencia";
         }
     }
-        @Transactional
+
+    @Transactional
         public TransferDTO performTransfer(TransferDTO dto) throws AccountNotFoundException {
             // Comprobar si las cuentas de origen y destino existen
-            Account originAccount = accountRepository.findById(dto.getAccountOrigin())
-                    .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + dto.getAccountOrigin()));
+            Account originAccount = accountRepository.findById(dto.getTransferOrigin())
+                    .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + dto.getTransferOrigin()));
 
-            Account destinationAccount = accountRepository.findById(dto.getAccountDestination())
-                    .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + dto.getAccountDestination()));
+            Account destinationAccount = accountRepository.findById(dto.getTransferDestination())
+                    .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + dto.getTransferDestination()));
 
         // Comprobar si la cuenta de origen tiene fondos suficientes
         if (originAccount.getAmount().compareTo(dto.getAmount()) < 0) {
-            throw new InsufficientFoundsException("Insufficient funds in the account with id: " + dto.getAccountOrigin());
+            throw new InsufficientFoundsException("Insufficient funds in the account with id: " + dto.getTransferOrigin());
         }
 
         // Realizar la transferencia
@@ -82,13 +83,13 @@ public class TransferService {
         Date date = new Date();
         // Seteamos el objeto fecha actual en el transferDto
         transfer.setDateTransf(date);   //setDate(date);
-        transfer.setAccountOrigin(originAccount.getId());
-        transfer.setAccountTarget(destinationAccount.getId());
+        transfer.setTransferOrigin(originAccount.getId());
+        transfer.setTransferTarget(destinationAccount.getId());
         transfer.setAmount(dto.getAmount());
         transfer = repository.save(transfer);
 
         // Devolver el DTO de la transferencia realizada
-        return TransferMapper.transferToDto(transfer);
+        return TransferMapper.transferToDTO(transfer);
     }
 
 }

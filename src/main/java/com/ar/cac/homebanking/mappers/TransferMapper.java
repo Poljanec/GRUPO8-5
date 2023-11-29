@@ -6,24 +6,23 @@ package com.ar.cac.homebanking.mappers;
 
 @UtilityClass
 public class TransferMapper {
-
-    // TODO: REFACTOR BUILDER
-    public TransferDTO transferToDto(Transfer transfer){
-        TransferDTO dto = new TransferDTO();
-        dto.setAmount(transfer.getAmount());
-        dto.setAccountOrigin(transfer.getAccountOrigin());
-        dto.setAccountDestination(transfer.getAccountTarget());
-        dto.setDateTransf(transfer.getDateTransf());
-        dto.setId(transfer.getId());
-        return dto;
+    public Transfer dtoToTransfer(TransferDTO dto) {
+        return Transfer.builder()
+                .amount(dto.getAmount())
+                .dateTransf(dto.getDateTransf())
+                .transferOrigin(dto.getTransferOrigin())
+                .transferTarget(dto.getTransferDestination())
+                .build();
+        }
+    public TransferDTO transferToDTO(Transfer transfer){
+        return TransferDTO.builder()
+                .id(transfer.getId())
+                .amount(transfer.getAmount())
+                .transferDestination(transfer.getTransferTarget())
+                .transferOrigin(transfer.getTransferOrigin())
+                .dateTransf(transfer.getDateTransf())
+                .build();
     }
 
-    public Transfer dtoToTransfer(TransferDTO dto){
-        Transfer transfer = new Transfer();
-        transfer.setAmount(dto.getAmount());
-        transfer.setAccountOrigin(dto.getAccountOrigin());
-        transfer.setAccountTarget(dto.getAccountDestination());
-        transfer.setDateTransf(dto.getDateTransf());
-        return transfer;
-    }
+
 }

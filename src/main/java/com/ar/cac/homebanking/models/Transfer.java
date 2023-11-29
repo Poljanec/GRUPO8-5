@@ -26,13 +26,16 @@ public class Transfer {
     @Column(name = "amount")
     private BigDecimal amount;
 
-    @Column(name = "account_origin")
-    private Long accountOrigin;
+    @Column(name = "origin")
+    private Long transferOrigin;
 
-    @Column(name = "account_destination")
-    private Long accountTarget;
+    @Column(name = "destination")
+    private Long transferTarget;
 
     @Column(name = "date_transf")
     private Date dateTransf;
+
+    @ManyToOne
+    private Account propietario;
 
 }

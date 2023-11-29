@@ -17,9 +17,9 @@ public class TransferDTO {
 
     private BigDecimal amount;
 
-    private Long accountOrigin;
+    private Long transferOrigin;
 
-    private Long accountDestination;
+    private Long transferDestination;
 
     private Date dateTransf;
 
