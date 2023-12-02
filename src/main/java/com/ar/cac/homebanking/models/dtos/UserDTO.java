@@ -1,4 +1,4 @@
-package com.ar.cac.homebanking.models;
+package com.ar.cac.homebanking.models.dtos;
 
         import lombok.AllArgsConstructor;
         import lombok.Getter;
@@ -12,17 +12,17 @@ public class UserDTO {
 
     private Long id;
 
-    private String mail;
+    private String email;
 
-    private String contrasena;
+    private String password;
 
-    private String nombre;
+    private String name;
 
-    private String apellido;
+    private String surname;
 
     private String dni;
 
-    private Date fechanacimiento;
+    private Date fechaNacimiento;
 
     private String direccion;
 
