@@ -3,6 +3,7 @@ package com.ar.cac.homebanking.models;
         import jakarta.persistence.*;
         import lombok.*;
 
+        import java.util.ArrayList;
         import java.util.Date;
         import java.util.List;
 
@@ -41,7 +42,13 @@ public class User {
     private String direccion;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Account> accounts;
+    private List<Account> accounts = new ArrayList<>();
+
+    public void addAccount(Account account) {
+        accounts.add(account);
+        account.setOwner(this);
+    }
+
 
 }
 
