@@ -22,7 +22,7 @@ public class UserService {
     // Inyectar una instancia del Repositorio
     @Autowired
     private UserRepository repository;
-
+    @Autowired AccountDTO accountDTO;
     // Metodos
 
     public List<UserDTO> getUsers(){
@@ -42,15 +42,21 @@ public class UserService {
         User userValidated = validateUserByEmail(userDto);
         if (userValidated == null) {
             User userSaved = repository.save(UserMapper.dtoToUser(userDto));
-
-            AccountDTO account = new AccountDTO();
-            account.setType(AccountType.SAVING_ACCOUNT);
-            account.setCbu(generarCbu());
-            long valueId = userSaved.getId();
+            /* Antes de usar inversion de control y añadir el @Autowired de AccountDto
+            //AccountDTO account = new AccountDTO();
+            //account.setType(AccountType.SAVING_ACCOUNT);
+            //account.setCbu(generarCbu());
             //System.out.print("Id vale: " + valueId);
-            account.setAlias(generarAlias(valueId));
-            account.setAmount(BigDecimal.ZERO);
-            Account accountEntity = AccountMapper.dtoToAccount(account); //convierto a entidad
+            //account.setAlias(generarAlias(valueId));
+            //account.setAmount(BigDecimal.ZERO);
+            */
+            accountDTO.setType(AccountType.SAVING_ACCOUNT);
+            accountDTO.setCbu(generarCbu());
+            long valueId = userSaved.getId();
+            accountDTO.setAlias(generarAlias(valueId));
+            accountDTO.setAmount(BigDecimal.ZERO);
+
+            Account accountEntity = AccountMapper.dtoToAccount(accountDTO); //convierto a entidad
 
             // Asignar la cuenta al usuario del tipo entity
             userSaved.addAccount(accountEntity);
@@ -73,7 +79,7 @@ public class UserService {
         return aliasGenerado;
     }
 
-
+//metodo que genera un cbu de 18 decimales. Puede mejorarse con un patron que respete el formato x-xxx-xxxx-xxxxx de un cbu
     public static String generarCbu() {
         Random random = new Random();
         StringBuilder cbu = new StringBuilder();
@@ -87,7 +93,6 @@ public class UserService {
         return cbu.toString();
     }
 
-    
 
     public UserDTO getUserById(Long id) {
         User entity = repository.findById(id).get();
