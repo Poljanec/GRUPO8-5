@@ -46,7 +46,9 @@ public class UserService {
             AccountDTO account = new AccountDTO();
             account.setType(AccountType.SAVING_ACCOUNT);
             account.setCbu(generarCbu());
-            account.setAlias("alias por defecto");
+            long valueId = userSaved.getId();
+            //System.out.print("Id vale: " + valueId);
+            account.setAlias(generarAlias(valueId));
             account.setAmount(BigDecimal.ZERO);
             Account accountEntity = AccountMapper.dtoToAccount(account); //convierto a entidad
 
@@ -61,7 +63,7 @@ public class UserService {
 
     private String generarAlias(long num) {
 
-        String[] PALABRAS = {"casa", "barco", "mesa", "azul"};
+        String[] PALABRAS = {"azul", "verde", "pasto", "rojo", "blanco", "negro", "gris", "nieve", "marron", "rosa", "tierra", "iris", "pastel", "metal", "amar", "plata", "oro", "cristal"};
 
         Random random = new Random();
         String palabraSeleccionada = PALABRAS[random.nextInt(PALABRAS.length)];
