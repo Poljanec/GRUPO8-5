@@ -60,7 +60,7 @@ public class UserService {
             throw new UserNotExistsException("Usuario con mail: " + userDto.getEmail() + " ya existe");
         }
     }
-
+    //metodo que genera un alias compuesto por una palabra un punto y el id usuario
     private String generarAlias(long num) {
 
         String[] PALABRAS = {"azul", "verde", "pasto", "rojo", "blanco", "negro", "gris", "nieve", "marron", "rosa", "tierra", "iris", "pastel", "metal", "amar", "plata", "oro", "cristal"};
@@ -87,7 +87,7 @@ public class UserService {
         return cbu.toString();
     }
 
-
+    
 
     public UserDTO getUserById(Long id) {
         User entity = repository.findById(id).get();
