@@ -35,8 +35,9 @@ public class Account {
     @ManyToOne
     private User owner;
 
-
     @OneToMany(mappedBy = "propietario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transfer> transfers;
+
+
 
 }
