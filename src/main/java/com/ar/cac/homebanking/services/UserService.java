@@ -41,6 +41,7 @@ public class UserService {
 
         User userValidated = validateUserByEmail(userDto);
         if (userValidated == null) {
+            accountDTO.setTitularCuenta(userDto.getName());
             User userSaved = repository.save(UserMapper.dtoToUser(userDto));
             /* Antes de usar inversion de control y añadir el @Autowired de AccountDto
             //AccountDTO account = new AccountDTO();
@@ -50,6 +51,7 @@ public class UserService {
             //account.setAlias(generarAlias(valueId));
             //account.setAmount(BigDecimal.ZERO);
             */
+
             accountDTO.setType(AccountType.SAVING_ACCOUNT);
             accountDTO.setCbu(generarCbu());
             long valueId = userSaved.getId();

@@ -24,4 +24,6 @@ public class AccountDTO {
 
     private BigDecimal amount;
 
+    private String titularCuenta;
+
 }
