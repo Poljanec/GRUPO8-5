@@ -3,9 +3,13 @@ package com.ar.cac.homebanking.services;
         import com.ar.cac.homebanking.exceptions.UserNotExistsException;
         import com.ar.cac.homebanking.mappers.AccountMapper;
         import com.ar.cac.homebanking.models.Account;
+        import com.ar.cac.homebanking.models.User;
         import com.ar.cac.homebanking.models.dtos.AccountDTO;
+        import com.ar.cac.homebanking.models.dtos.UserDTO;
         import com.ar.cac.homebanking.models.enums.AccountType;
         import com.ar.cac.homebanking.repositories.AccountRepository;
+        import com.ar.cac.homebanking.repositories.UserRepository;
+        import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.stereotype.Service;
 
         import java.math.BigDecimal;
@@ -15,9 +19,12 @@ package com.ar.cac.homebanking.services;
 @Service
 public class AccountService {
 
+    @Autowired
+    private final UserRepository userRepository;
     private final AccountRepository repository;
 
-    public AccountService(AccountRepository repository){
+    public AccountService(UserRepository userRepository, AccountRepository repository){
+        this.userRepository = userRepository;
         this.repository = repository;
     }
     public List<AccountDTO> getAccounts() {
@@ -28,11 +35,28 @@ public class AccountService {
     }
 
     public AccountDTO createAccount(AccountDTO dto) {
-        dto.setType(AccountType.SAVINGS_BANK);
-        dto.setAmount(BigDecimal.ZERO);
-        Account newAccount = repository.save(AccountMapper.dtoToAccount(dto));
-        return AccountMapper.accountToDto(newAccount);
+        String email = dto.getTitular();
+        User userValidated = validateUserByEmail(email);
+        if(userValidated != null){
+            dto.setType(AccountType.SAVINGS_BANK);
+            dto.setAmount(BigDecimal.ZERO);
+            Account newAccount = repository.save(AccountMapper.dtoToAccount(dto));
+
+            userValidated.addAccount(newAccount);
+            userRepository.save(userValidated);
+            return AccountMapper.accountToDto(newAccount);
+        }else {
+            throw new UserNotExistsException("No existe el usuario: " + dto.getTitular());
+        }
     }
+
+    private User validateUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    /*public User validateUserByName(UserDTO dto){
+
+    }*/
 
     public AccountDTO getAccountById(Long id) {
         Account entity = repository.findById(id).get();

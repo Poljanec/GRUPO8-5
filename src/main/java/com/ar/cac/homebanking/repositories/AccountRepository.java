@@ -6,4 +6,6 @@ package com.ar.cac.homebanking.repositories;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account,Long> {
+        //Account findByTitular(String titular);
+        //Account findByEmail(String titular);
 }
