@@ -42,6 +42,7 @@ public class AccountService {
             //dto.setType(AccountType.SAVINGS_BANK);
             if(accountValidated == null){
                 dto.setAmount(BigDecimal.ZERO);
+                //dto.setTitular(email);
                 Account newAccount = repository.save(AccountMapper.dtoToAccount(dto));
                 userValidated.addAccount(newAccount);
                 userRepository.save(userValidated);

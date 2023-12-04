@@ -41,7 +41,7 @@ public class UserService {
 
         User userValidated = validateUserByEmail(userDto);
         if (userValidated == null) {
-            accountDTO.setTitular(userDto.getName());
+            accountDTO.setTitular(userDto.getEmail());
             User userSaved = repository.save(UserMapper.dtoToUser(userDto));
             /* Antes de usar inversion de control y añadir el @Autowired de AccountDto
             //AccountDTO account = new AccountDTO();

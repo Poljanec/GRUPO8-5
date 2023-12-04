@@ -35,7 +35,7 @@ public class Account {
     @ManyToOne
     private User owner;
 
-    @Column(name = "Titular de la cuenta")
+    @Column(name = "Email del titular")
     private String titular;
 
     @OneToMany(mappedBy = "propietario", cascade = CascadeType.ALL, orphanRemoval = true)
