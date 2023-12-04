@@ -35,6 +35,9 @@ public class Account {
     @ManyToOne
     private User owner;
 
+    @Column(name = "Titular de la cuenta")
+    private String titular;
+
     @OneToMany(mappedBy = "propietario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transfer> transfers;
 

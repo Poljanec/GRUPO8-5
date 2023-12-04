@@ -15,6 +15,7 @@ public class AccountMapper {
         dto.setType(account.getType());
         dto.setAmount(account.getAmount());
         dto.setId(account.getId());
+        dto.setTitularCuenta(account.getTitular());
         return dto;
     }
 
@@ -24,6 +25,7 @@ public class AccountMapper {
         account.setType(dto.getType());
         account.setCbu(dto.getCbu());
         account.setAmount(dto.getAmount());
+        account.setTitular(dto.getTitularCuenta());
         return account;
     }
 }
