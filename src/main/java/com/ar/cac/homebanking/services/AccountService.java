@@ -1,11 +1,15 @@
 package com.ar.cac.homebanking.services;
 
+        import com.ar.cac.homebanking.exceptions.AccountNotFoundException;
         import com.ar.cac.homebanking.exceptions.UserNotExistsException;
         import com.ar.cac.homebanking.mappers.AccountMapper;
         import com.ar.cac.homebanking.models.Account;
+        import com.ar.cac.homebanking.models.User;
         import com.ar.cac.homebanking.models.dtos.AccountDTO;
         import com.ar.cac.homebanking.models.enums.AccountType;
         import com.ar.cac.homebanking.repositories.AccountRepository;
+        import com.ar.cac.homebanking.repositories.UserRepository;
+        import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.stereotype.Service;
 
         import java.math.BigDecimal;
@@ -15,9 +19,12 @@ package com.ar.cac.homebanking.services;
 @Service
 public class AccountService {
 
+    @Autowired
+    private final UserRepository userRepository;
     private final AccountRepository repository;
 
-    public AccountService(AccountRepository repository){
+    public AccountService(UserRepository userRepository, AccountRepository repository){
+        this.userRepository = userRepository;
         this.repository = repository;
     }
     public List<AccountDTO> getAccounts() {
@@ -27,11 +34,40 @@ public class AccountService {
                 .collect(Collectors.toList());
     }
 
-    public AccountDTO createAccount(AccountDTO dto) {
-        dto.setType(AccountType.SAVINGS_BANK);
-        dto.setAmount(BigDecimal.ZERO);
-        Account newAccount = repository.save(AccountMapper.dtoToAccount(dto));
-        return AccountMapper.accountToDto(newAccount);
+    public AccountDTO createAccount(AccountDTO dto) throws AccountNotFoundException{
+
+        try {
+            String email = dto.getTitular();
+            User userValidated = validateUserByEmail(email);
+            Account accountValidated = validateAccountByType(dto.getType());
+
+            if (userValidated != null) {
+                if (accountValidated == null) {
+                    dto.setAmount(BigDecimal.ZERO);
+                    Account newAccount = repository.save(AccountMapper.dtoToAccount(dto));
+                    userValidated.addAccount(newAccount);
+                    userRepository.save(userValidated);
+                    return AccountMapper.accountToDto(newAccount);
+                } else {
+                    throw new AccountNotFoundException("Ya existe una cuenta de tipo: " + dto.getType());
+                }
+            } else {
+                throw new AccountNotFoundException("No existe el usuario: " + dto.getTitular());
+            }
+        } catch (AccountNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("Error interno del servidor", e);
+        }
+    }
+
+    public Account validateAccountByType(AccountType type){
+        return repository.findByType(type);
+        //return repository.findByType(type).orElse(null);
+    }
+
+    private User validateUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     public AccountDTO getAccountById(Long id) {
