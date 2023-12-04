@@ -37,26 +37,30 @@ public class AccountService {
     public AccountDTO createAccount(AccountDTO dto) {
         String email = dto.getTitular();
         User userValidated = validateUserByEmail(email);
+        Account accountValidated = validateAccountByType(dto.getType());
         if(userValidated != null){
-            dto.setType(AccountType.SAVINGS_BANK);
-            dto.setAmount(BigDecimal.ZERO);
-            Account newAccount = repository.save(AccountMapper.dtoToAccount(dto));
-
-            userValidated.addAccount(newAccount);
-            userRepository.save(userValidated);
-            return AccountMapper.accountToDto(newAccount);
+            //dto.setType(AccountType.SAVINGS_BANK);
+            if(accountValidated == null){
+                dto.setAmount(BigDecimal.ZERO);
+                Account newAccount = repository.save(AccountMapper.dtoToAccount(dto));
+                userValidated.addAccount(newAccount);
+                userRepository.save(userValidated);
+                return AccountMapper.accountToDto(newAccount);
+            }else {
+                throw new UserNotExistsException("Ya existe una cuenta de tipo: " + dto.getType());
+            }
         }else {
             throw new UserNotExistsException("No existe el usuario: " + dto.getTitular());
         }
     }
 
+    public Account validateAccountByType(AccountType type){
+        return repository.findByType(type).orElse(null);
+    }
+
     private User validateUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-
-    /*public User validateUserByName(UserDTO dto){
-
-    }*/
 
     public AccountDTO getAccountById(Long id) {
         Account entity = repository.findById(id).get();
