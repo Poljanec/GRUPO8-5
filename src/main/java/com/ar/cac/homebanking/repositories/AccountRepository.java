@@ -9,6 +9,7 @@ package com.ar.cac.homebanking.repositories;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account,Long> {
-        Optional<Account> findByType(AccountType type);
+        //Optional<Account> findByType(AccountType type);
+        Account findByType(AccountType type);
 
 }

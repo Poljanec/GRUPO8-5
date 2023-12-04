@@ -1,5 +1,7 @@
 package com.ar.cac.homebanking.controllers;
 
+        import com.ar.cac.homebanking.exceptions.AccountNotFoundException;
+        import com.ar.cac.homebanking.models.Account;
         import com.ar.cac.homebanking.models.dtos.AccountDTO;
         import com.ar.cac.homebanking.models.dtos.UserDTO;
         import com.ar.cac.homebanking.services.AccountService;
@@ -31,9 +33,19 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<AccountDTO> createAccount(@RequestBody AccountDTO dto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createAccount(dto));
+    public ResponseEntity<?> createAccount(@RequestBody AccountDTO dto) {
+        try {
+            AccountDTO createdAccount = service.createAccount(dto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdAccount);
+        } catch (AccountNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
+    //public ResponseEntity<AccountDTO> createAccount(@RequestBody AccountDTO dto){
+    //    return ResponseEntity.status(HttpStatus.CREATED).body(service.createAccount(dto));
+    //}
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<AccountDTO> updateAccount(@PathVariable Long id, @RequestBody AccountDTO dto){
